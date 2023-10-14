@@ -5,25 +5,6 @@ import swaggerUi from 'swagger-ui-express';
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.get('/health-check', (req, res) => {
-    res.json({ status: 'Server is running'});
-});
-
-const swaggerOptions = {
-    swaggerDefinition: {
-        info: {
-            title: 'Express Server API',
-            description: 'health-check endpoint',
-            version: '1.0.0',
-        },
-    },
-    apis: ['index.js'],
-};
-
-const swaggerSpec = swaggerJSDoc(swaggerOptions);
-
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-
 /**
  * @swagger
  * /health-check:
@@ -38,6 +19,25 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
  *             example:
  *               status: Server is running
  */
+
+app.get('/health-check', (req, res) => {
+    res.json({ status: 'Server is running'});
+});
+
+const swaggerOptions = {
+    swaggerDefinition: {
+        info: {
+            title: 'Express Server API',
+            description: 'health-check endpoint',
+            version: '1.0.0',
+        },
+    },
+    apis: ['src/index.js'],
+};
+
+const swaggerSpec = swaggerJSDoc(swaggerOptions);
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
