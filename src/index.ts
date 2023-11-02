@@ -1,9 +1,9 @@
-import express from 'express';
-import swaggerJSDoc from 'swagger-jsdoc';
+import express, { Request, Response } from 'express';
+import swaggerJSDoc, { Options } from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT: number = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 
 /**
  * @swagger
@@ -20,19 +20,19 @@ const PORT = process.env.PORT || 3000;
  *               status: Server is running
  */
 
-app.get('/health-check', (req, res) => {
+app.get('/health-check', (req: Request, res: Response) => {
     res.json({ status: 'Server is running'});
 });
 
-const swaggerOptions = {
+const swaggerOptions: Options = {
     swaggerDefinition: {
         info: {
-            title: 'Express Server API',
+            title: 'Express TS Server API',
             description: 'health-check endpoint',
             version: '1.0.0',
         },
     },
-    apis: ['src/index.js'],
+    apis: ['src/index.ts'],
 };
 
 const swaggerSpec = swaggerJSDoc(swaggerOptions);
