@@ -90,7 +90,7 @@ router.delete('/genres/:name', async (req: Request, res: Response) => {
         
         res.status(204).send();
     } catch (error) {
-        res.status(500).json({ error: 'Error deletinggenre' });
+        res.status(500).json({ error: 'Error deleting genre' });
     }
 });
 
