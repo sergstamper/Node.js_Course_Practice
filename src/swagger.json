@@ -1,420 +1,420 @@
 {
-    "openapi": "3.0.0",
-    "info": {
-        "title": "Express TS Server API",
-        "description": "Check endpoints",
-        "version": "1.0.0"
-    },
-    "paths": {
-        "/health-check": {
-            "get": {
-                "summary": "Check if the server is running.",
-                "description": "Returns a JSON response indicating the server is running.",
-                "tags": ["Health check"],
-                "responses": {
-                    "200": {
-                        "description": "Server is running.",
-                        "content": {
-                            "application/json": {
-                                "example": {
-                                    "status": "Server is running"
-                                }
-                            }
-                        }
-                    }
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Express TS Server API",
+    "description": "Check endpoints",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/health-check": {
+      "get": {
+        "summary": "Check if the server is running.",
+        "description": "Returns a JSON response indicating the server is running.",
+        "tags": ["Health check"],
+        "responses": {
+          "200": {
+            "description": "Server is running.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "Server is running"
                 }
+              }
             }
-        },
-        "/api/movies": {
-            "post": {
-                "summary": "Create a new movie",
-                "description": "Create a new movie with the provided data.",
-                "tags": ["Movies"],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Movie"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Movie created successfully.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Movie"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request."
-                    },
-                    "500": {
-                        "description": "Internal server error."
-                    }
-                }
-            },
-            "get": {
-                "summary": "Get a list of movies",
-                "description": "Returns a list of all movies.",
-                "tags": ["Movies"],
-                "responses": {
-                    "200": {
-                        "description": "Successful request. Returns a list of movies."
-                    },
-                    "500": {
-                        "description": "Server error."
-                    }
-                }
-            }
-        },
-        "/api/movies/{title}": {
-            "get": {
-                "summary": "Get movie information by title",
-                "description": "Returns information about a movie based on its title.",
-                "tags": ["Movies"],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "title",
-                        "required": true,
-                        "description": "Movie title.",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful request. Returns movie information."
-                    },
-                    "404": {
-                        "description": "Movie not found."
-                    },
-                    "500": {
-                        "description": "Server error."
-                    }
-                }
-            },
-            "put": {
-                "summary": "Update a movie by title",
-                "description": "Updates movie information by its title.",
-                "tags": ["Movies"],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "title",
-                        "required": true,
-                        "description": "Movie title.",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "required": true,
-                        "description": "New movie information.",
-                        "schema": {
-                            "type": "object"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful movie update. Returns updated movie information."
-                    },
-                    "404": {
-                        "description": "Movie not found."
-                    },
-                    "500": {
-                        "description": "Server error."
-                    }
-                }
-            },
-            "delete": {
-                "summary": "Delete a movie by title",
-                "description": "Deletes a movie by its title.",
-                "tags": ["Movies"],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "title",
-                        "required": true,
-                        "description": "Movie title.",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "Successful movie deletion."
-                    },
-                    "404": {
-                        "description": "Movie not found."
-                    },
-                    "500": {
-                        "description": "Server error."
-                    }
-                }
-            }
-        },
-        "/api/movies/genre/{genreName}": {
-            "get": {
-                "summary": "Get movies by genre",
-                "description": "Returns a list of movies for a specified genre.",
-                "tags": ["Movies"],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "genreName",
-                        "required": true,
-                        "description": "Genre name.",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful request. Returns a list of movies."
-                    },
-                    "404": {
-                        "description": "Genre not found."
-                    },
-                    "500": {
-                        "description": "Server error."
-                    }
-                }
-            }
-        },
-        "/api/genres": {
-            "get": {
-                "summary": "Get a list of genres",
-                "description": "Returns a list of all genres.",
-                "tags": ["Genres"],
-                "responses": {
-                    "200": {
-                        "description": "Successful request. Returns a list of genres."
-                    },
-                    "500": {
-                        "description": "Server error."
-                    }
-                }
-            },
-            "post": {
-                "summary": "Create a new genre.",
-                "description": "Create a new genre with the provided name.",
-                "tags": ["Genres"],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "name": {
-                                        "type": "string"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Genre created successfully.",
-                        "content": {
-                                "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Genre"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request. Validation error.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ValidationError"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                    "description": "Internal server error."
-                    }
-                }
-            }
-        },
-        "/api/genres/{name}": {
-            "get": {
-                "summary": "Get a genre by name.",
-                "description": "Get a genre by its name.",
-                "tags": ["Genres"],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "name",
-                        "required": true,
-                        "description": "The name of the genre to retrieve.",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Genre retrieved successfully.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Genre"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Genre not found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error."
-                    }
-                }
-            },
-            "put": {
-                "summary": "Update a genre by name.",
-                "description": "Update a genre's information by its name.",
-                "tags": ["Genres"],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "name",
-                        "required": true,
-                        "description": "The name of the genre to update.",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Genre"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Genre updated successfully.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Genre"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request. Validation error.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ValidationError"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Genre not found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error."
-                    }
-                }
-            },
-            "delete": {
-                "summary": "Delete a genre by name.",
-                "description": "Delete a genre by its name.",
-                "tags": ["Genres"],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "name",
-                        "required": true,
-                        "description": "The name of the genre to delete.",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "Genre deleted successfully."
-                    },
-                    "404": {
-                        "description": "Genre not found."
-                    },
-                    "500": {
-                        "description": "Internal server error."
-                    }
-                }
-            }
+          }
         }
+      }
     },
-    "components": {
-        "schemas": {
-            "Movie": {
+    "/api/movies": {
+      "post": {
+        "summary": "Create a new movie",
+        "description": "Create a new movie with the provided data.",
+        "tags": ["Movies"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Movie"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Movie created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Movie"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      },
+      "get": {
+        "summary": "Get a list of movies",
+        "description": "Returns a list of all movies.",
+        "tags": ["Movies"],
+        "responses": {
+          "200": {
+            "description": "Successful request. Returns a list of movies."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      }
+    },
+    "/api/movies/{title}": {
+      "get": {
+        "summary": "Get movie information by title",
+        "description": "Returns information about a movie based on its title.",
+        "tags": ["Movies"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "title",
+            "required": true,
+            "description": "Movie title.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful request. Returns movie information."
+          },
+          "404": {
+            "description": "Movie not found."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a movie by title",
+        "description": "Updates movie information by its title.",
+        "tags": ["Movies"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "title",
+            "required": true,
+            "description": "Movie title.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "description": "New movie information.",
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful movie update. Returns updated movie information."
+          },
+          "404": {
+            "description": "Movie not found."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a movie by title",
+        "description": "Deletes a movie by its title.",
+        "tags": ["Movies"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "title",
+            "required": true,
+            "description": "Movie title.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful movie deletion."
+          },
+          "404": {
+            "description": "Movie not found."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      }
+    },
+    "/api/movies/genre/{genreName}": {
+      "get": {
+        "summary": "Get movies by genre",
+        "description": "Returns a list of movies for a specified genre.",
+        "tags": ["Movies"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "genreName",
+            "required": true,
+            "description": "Genre name.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful request. Returns a list of movies."
+          },
+          "404": {
+            "description": "Genre not found."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      }
+    },
+    "/api/genres": {
+      "get": {
+        "summary": "Get a list of genres",
+        "description": "Returns a list of all genres.",
+        "tags": ["Genres"],
+        "responses": {
+          "200": {
+            "description": "Successful request. Returns a list of genres."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new genre.",
+        "description": "Create a new genre with the provided name.",
+        "tags": ["Genres"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
                 "type": "object",
                 "properties": {
-                    "title": {
-                        "type": "string"
-                    },
-                    "description": {
-                        "type": "string"
-                    },
-                    "releaseDate": {
-                        "type": "string",
-                        "format": "date"
-                    },
-                    "genre": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        }
-                    }
+                  "name": {
+                    "type": "string"
+                  }
                 }
-            },
-            "Genre": {
-                "type": "object",
-                "properties": {
-                    "name": {
-                        "type": "string"
-                    }
-                }
+              }
             }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Genre created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Genre"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request. Validation error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error."
+          }
         }
+      }
+    },
+    "/api/genres/{name}": {
+      "get": {
+        "summary": "Get a genre by name.",
+        "description": "Get a genre by its name.",
+        "tags": ["Genres"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "name",
+            "required": true,
+            "description": "The name of the genre to retrieve.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Genre retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Genre"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Genre not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a genre by name.",
+        "description": "Update a genre's information by its name.",
+        "tags": ["Genres"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "name",
+            "required": true,
+            "description": "The name of the genre to update.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Genre"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Genre updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Genre"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request. Validation error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Genre not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a genre by name.",
+        "description": "Delete a genre by its name.",
+        "tags": ["Genres"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "name",
+            "required": true,
+            "description": "The name of the genre to delete.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Genre deleted successfully."
+          },
+          "404": {
+            "description": "Genre not found."
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
     }
+  },
+  "components": {
+    "schemas": {
+      "Movie": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "releaseDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "genre": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "Genre": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
 }

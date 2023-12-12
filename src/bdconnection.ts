@@ -1,21 +1,19 @@
 import mongoose, { Connection, Mongoose } from 'mongoose';
 
-const dbUrl = 'mongodb+srv://sergkabanoff:mayday77@nodeproject.f98upqi.mongodb.net/moviedb?retryWrites=true&w=majority';
+import config from './config.js';
 
-const connectToDatabase = async (): Promise<Connection> => {
-    const mongooseInstance: Mongoose = await mongoose.connect(dbUrl);
+export default async (): Promise<Connection> => {
+  const mongooseInstance: Mongoose = await mongoose.connect(config.dbUrl);
 
-    const connection: Connection = mongooseInstance.connection;
+  const connection: Connection = mongooseInstance.connection;
 
-    connection.on('error', (error) => {
-        console.error('Error connection to MongoDB Atlas:', error);
-    });
+  connection.on('error', error => {
+    console.error('Error connection to MongoDB Atlas:', error);
+  });
 
-    connection.once('open', () => {
-        console.log('Successfully connected to MongoDB Atlas');
-    });
+  connection.once('open', () => {
+    console.log('Successfully connected to MongoDB Atlas');
+  });
 
-    return connection;
+  return connection;
 };
-
-export default connectToDatabase;
