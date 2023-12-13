@@ -1,44 +1,43 @@
+import fs from 'fs';
+import path from 'path';
+
 import express, { Request, Response } from 'express';
-import swaggerJSDoc, { Options } from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 
-const app = express();
-const PORT: number = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
+import connectToDatabase from './bdconnection.js';
+import movieRouter from './routes/movie.router.js';
+import genreRouter from './routes/genre.router.js';
 
-/**
- * @swagger
- * /health-check:
- *   get:
- *     summary: Check if the server is running.
- *     description: Returns a JSON response indicating the server is running.
- *     responses:
- *       200:
- *         description: Server is running.
- *         content:
- *           application/json:
- *             example:
- *               status: Server is running
- */
+import config from './config.js';
+
+const filename = path.join(process.cwd(), 'src/swagger.json');
+
+const app = express();
+
+app.use(express.json());
+
+const swaggerJson = fs.readFileSync(filename, 'utf8');
+const swaggerDocument = JSON.parse(swaggerJson);
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+app.use('/api/movies', movieRouter);
+app.use('/api/genres', genreRouter);
+
+connectToDatabase()
+  .then(() => {
+    if (config.NODE_ENV !== 'test') {
+      app.listen(config.PORT, () => {
+        console.log(`Server is running on port ${config.PORT}`);
+      });
+    }
+  })
+  .catch((error: unknown) => {
+    console.error('Error connecting to MongoDB:', error);
+  });
 
 app.get('/health-check', (req: Request, res: Response) => {
-    res.json({ status: 'Server is running'});
+  res.json({ status: 'Server is running' });
 });
 
-const swaggerOptions: Options = {
-    swaggerDefinition: {
-        info: {
-            title: 'Express TS Server API',
-            description: 'health-check endpoint',
-            version: '1.0.0',
-        },
-    },
-    apis: ['src/index.ts'],
-};
-
-const swaggerSpec = swaggerJSDoc(swaggerOptions);
-
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+export default app;
